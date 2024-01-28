@@ -1,0 +1,21 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: gpu/Dockerfile
+    environment:
+      - PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:512
+      - GRADIO_SERVER_NAME=0.0.0.0
+    ports:
+      - 7860:7860
+    volumes:
+      - ".cache/huggingface:/root/.cache/huggingface"
+    command: "python /app/src/main.py"
+    privileged: true
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1  
+              capabilities: [gpu]
