@@ -2,7 +2,7 @@ import gradio as gr
 from model import stable_model
 
 
-def generate_image(prompt, negative_prompt):
+def generate_image(prompt: str, negative_prompt: str):
     stable_model.load_pretrained()
     return stable_model.generate_image(prompt, negative_prompt)
 
