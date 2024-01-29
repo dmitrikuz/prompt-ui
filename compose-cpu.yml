@@ -6,7 +6,7 @@ services:
     environment:
       - GRADIO_SERVER_NAME=0.0.0.0
     ports:
-      - 7860:7860
+      - 8591:7860
     volumes:
       - ".cache/huggingface:/root/.cache/huggingface"
     command: "python /app/src/main.py"
