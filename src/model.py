@@ -1,6 +1,6 @@
 import torch
 from diffusers import StableDiffusionPipeline
-from PIL import Image
+from PIL.Image import Image
 
 
 class StableDiffusionModel:
@@ -11,18 +11,17 @@ class StableDiffusionModel:
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
 
     def load_pretrained(self):
-        params = {
-            "pretrained_model_name_or_path": self.model_name,
-        }
-        if self.device == "cuda":
-            params["torch_dtype"] = torch.float16
-            params["use_safetensors"] = True
 
         if not self.loaded:
+            params = {
+                "pretrained_model_name_or_path": self.model_name,
+            }
+            if self.device == "cuda":
+                params["torch_dtype"] = torch.float16
+                params["use_safetensors"] = True
+            
             pipe = StableDiffusionPipeline.from_pretrained(**params)
-            pipe = pipe.to(self.device)
-
-            self.pipe = pipe
+            self.pipe = pipe.to(self.device)
             self.loaded = True
 
         return self
@@ -32,8 +31,4 @@ class StableDiffusionModel:
         image = output.images[0]
         return image
 
-
-def load_model() -> StableDiffusionModel:
-    model = StableDiffusionModel()
-    model.load_pretrained()
-    return model
+stable_model = StableDiffusionModel()
